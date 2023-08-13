@@ -92,7 +92,7 @@ export default function PullRequestPage({ id }: { id: string }) {
                 <div className="pb-12 pr-2 md:pr-0">
                   <DiffView
                     diff={diff}
-                    preReview={preReview}
+                    preReviewId={preReview.id}
                     reviewComments={comments}
                   />
                 </div>
