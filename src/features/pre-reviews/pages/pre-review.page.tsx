@@ -8,8 +8,16 @@ import Link from "next/link";
 
 import DiffView from "@/features/pre-reviews/components/diff-view";
 import FileTree from "@/features/shared/components/file-tree";
+import AiChat from "@/features/pre-reviews/components/ai-chat";
+import { useState } from "react";
+import { Switch } from "@/features/shared/components/ui/switch";
 
 export default function PullRequestPage({ id }: { id: string }) {
+  const isAdmin =
+    typeof window !== "undefined" &&
+    window.localStorage.getItem("isAdmin") === "true";
+
+  const [isChatOpen, setIsChatOpen] = useState(false);
   const { data: diff } = api.preReviewDiff.show.useQuery({ preReviewId: id });
   const { data: preReview } = api.preReview.show.useQuery({ id });
   const { data: comments } = api.comment.list.useQuery({
@@ -38,33 +46,68 @@ export default function PullRequestPage({ id }: { id: string }) {
                 Back
               </Button>
             </Link>
-          </ActionsTopbar>
-          <div className="overflow-auto px-2 md:overflow-visible md:px-8">
-            <div className="pb-6">
-              <h2 className="scroll-m-20 pt-4 text-xl font-semibold tracking-tight transition-colors first:mt-0">
-                {preReview.title}
-              </h2>
-              <div className="text-sm text-slate-700">
-                {preReview.owner}/{preReview.repo}/{preReview.head}
-              </div>
-            </div>
-            <div className="flex gap-4">
-              <div className="hidden md:block">
+            {isAdmin && (
+              <div className="flex items-center gap-2">
                 <div
-                  className="sticky flex-grow overflow-y-auto pb-2 pr-4"
-                  style={{ maxHeight: "calc(100vh - 60px)", top: "60px" }}
+                  className="cursor-pointer text-xs font-semibold"
+                  onClick={() => setIsChatOpen((prev) => !prev)}
                 >
-                  <FileTree files={fileTree} />
+                  AI Assistant
                 </div>
-              </div>
-              <div className="pb-12 pr-2 md:pr-0">
-                <DiffView
-                  diff={diff}
-                  preReviewId={id}
-                  reviewComments={comments}
+                <Switch
+                  checked={isChatOpen}
+                  onCheckedChange={() => {
+                    setIsChatOpen((prev) => !prev);
+                    return true;
+                  }}
                 />
               </div>
+            )}
+          </ActionsTopbar>
+          <div className="flex">
+            <div
+              className={`overflow-auto px-2 md:overflow-visible md:px-8 ${
+                isChatOpen ? "w-1/2 md:pr-3" : ""
+              }`}
+            >
+              <div className="pb-6">
+                <h2 className="scroll-m-20 pt-4 text-xl font-semibold tracking-tight transition-colors first:mt-0">
+                  {preReview.title}
+                </h2>
+                <div className="text-sm text-slate-700">
+                  {preReview.owner}/{preReview.repo}/{preReview.head}
+                </div>
+              </div>
+              <div className="flex gap-4">
+                {!isChatOpen && (
+                  <div className="hidden md:block">
+                    <div
+                      className="sticky flex-grow overflow-y-auto pb-2 pr-4"
+                      style={{ maxHeight: "calc(100vh - 60px)", top: "60px" }}
+                    >
+                      <FileTree files={fileTree} />
+                    </div>
+                  </div>
+                )}
+                <div className="pb-12 pr-2 md:pr-0">
+                  <DiffView
+                    diff={diff}
+                    preReview={preReview}
+                    reviewComments={comments}
+                  />
+                </div>
+              </div>
             </div>
+            {isChatOpen && (
+              <div className="w-1/2 overflow-auto border-l-2 border-slate-100 bg-slate-50 px-2 md:overflow-visible">
+                <div
+                  className="sticky h-full flex-grow overflow-y-auto px-1 pb-2"
+                  style={{ maxHeight: "calc(100vh - 60px)", top: "60px" }}
+                >
+                  <AiChat diff={diff} />
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </Layout>
