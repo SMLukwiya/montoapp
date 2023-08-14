@@ -1,6 +1,5 @@
 import { Button } from "@/features/shared/components/ui/button";
 import { Textarea } from "@/features/shared/components/ui/textarea";
-import { api, type RouterOutputs } from "@/server/lib/api";
 import { useChat } from "ai/react";
 import { Loader2, Send } from "lucide-react";
 import { type RefObject, useEffect, useRef, type KeyboardEvent } from "react";
