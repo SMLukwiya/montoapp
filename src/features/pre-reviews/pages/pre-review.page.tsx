@@ -27,7 +27,34 @@ export default function PullRequestPage({ id }: { id: string }) {
   const { data: fileTree } = api.preReviewFileTree.show.useQuery({
     preReviewId: id,
   });
-  console.log({ preReview, comments, diff, fileTree });
+
+  const fileContentQueries = api.useQueries((t) => [
+    t.fileContent.show({
+      path: "apps/web/components/eventtype/EventAvailabilityTab.tsx",
+      owner: "monto7926",
+      repo: "cal.com",
+      ref: "main",
+    }),
+    t.fileContent.show({
+      path: "packages/trpc/server/routers/viewer/availability/schedule/get.handler.ts",
+      owner: "monto7926",
+      repo: "cal.com",
+      ref: "main",
+    }),
+  ]);
+
+  if (!fileContentQueries.every((q) => q.isSuccess)) return <LoadingPage />;
+
+  const fileContents = fileContentQueries
+    .map((query) => {
+      const data = query.data;
+      return `${data?.path || ""}:"\n"${(data?.content || "")
+        .split(" ")
+        .join("")}`;
+    })
+    .join("\n\n");
+
+  console.log({ fileContents, preReview, comments, diff, fileTree });
   if (!preReview || !comments || diff === undefined || !fileTree)
     return (
       <Layout noPadding fullScreen fullScreenOnMobile>
@@ -104,7 +131,11 @@ export default function PullRequestPage({ id }: { id: string }) {
                   className="sticky h-full flex-grow overflow-y-auto px-1 pb-2"
                   style={{ maxHeight: "calc(100vh - 60px)", top: "60px" }}
                 >
-                  <AiChat diff={diff} />
+                  <AiChat
+                    diff={diff}
+                    files={fileContents}
+                    title={preReview.title}
+                  />
                 </div>
               </div>
             )}

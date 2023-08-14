@@ -12,29 +12,36 @@ export const runtime = "edge";
 export default async function POST(req: Request) {
   const request = (await req.json()) as {
     messages: Message[];
+    title: string;
     diff: string;
+    files: string;
   };
   const messages = request.messages;
+  const title = request.title;
   const diff = request.diff;
+  const files = request.files;
 
   const { stream, handlers } = LangChainStream();
 
   const template =
-    "You are a brilliant and meticulous software engineer. We are working on this diff: {diff}";
+    "You are a brilliant and meticulous software engineer. We are working on an issue called {title}. These are the files: {files}. This is the diff: {diff}";
   const systemMessagePrompt =
     SystemMessagePromptTemplate.fromTemplate(template);
 
+  console.log(systemMessagePrompt);
   const chatPrompt = ChatPromptTemplate.fromPromptMessages([
     systemMessagePrompt,
   ]);
 
   const formattedChatPrompt = await chatPrompt.formatMessages({
+    title,
     diff,
+    files,
   });
 
   const llm = new ChatOpenAI({
     openAIApiKey: env.OPENAI_API_KEY,
-    modelName: "gpt-4", // "gpt-3.5-turbo"
+    modelName: "gpt-3.5-turbo-16k", // gpt-3.5-turbo-16k", // "gpt-4", //
     streaming: true,
   });
 

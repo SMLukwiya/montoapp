@@ -1,5 +1,6 @@
 import { Button } from "@/features/shared/components/ui/button";
 import { Textarea } from "@/features/shared/components/ui/textarea";
+import { api, type RouterOutputs } from "@/server/lib/api";
 import { useChat } from "ai/react";
 import { Loader2, Send } from "lucide-react";
 import { type RefObject, useEffect, useRef, type KeyboardEvent } from "react";
@@ -8,14 +9,25 @@ import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { ghcolors } from "react-syntax-highlighter/dist/cjs/styles/prism";
 
-export default function AiChat({ diff }: { diff: string }) {
+export default function AiChat({
+  diff,
+  files,
+  title,
+}: {
+  diff: string;
+  files: string;
+  title: string;
+}) {
   const messagesContainerRef = useRef<HTMLElement | null>(null);
   const textareaRef = useRef<HTMLTextAreaElement | null>(null);
   const submitButtonRef = useRef<HTMLButtonElement | null>(null);
 
+  console.log({ diff, files });
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     body: {
       diff,
+      files,
+      title,
     },
   });
 
