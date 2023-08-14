@@ -134,7 +134,7 @@ export default function PullRequestPage({ id }: { id: string }) {
                   <AiChat
                     diff={diff}
                     files={fileContents}
-                    title={preReview.title}
+                    title={preReview.title || ""}
                   />
                 </div>
               </div>
