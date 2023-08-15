@@ -9,7 +9,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-export default function ListPullRequestsPage() {
+export default function ListIssuePage() {
   const query = api.issue.list.useInfiniteQuery(
     {
       limit: 10,
@@ -19,7 +19,7 @@ export default function ListPullRequestsPage() {
     }
   );
 
-  const pullRequests = query.data?.pages.flatMap((page) => page.items);
+  const issues = query.data?.pages.flatMap((page) => page.items);
   const { user } = useUser();
 
   return (
@@ -81,11 +81,11 @@ export default function ListPullRequestsPage() {
           </Link>
         </div>
         <div className="relative h-full space-y-3 pt-3">
-          {(!pullRequests || !user) && <LoadingPage />}
-          {pullRequests &&
+          {(!issues || !user) && <LoadingPage />}
+          {issues &&
             user &&
-            pullRequests.map((pullRequest) => (
-              <PullRequestItem pullRequest={pullRequest} key={pullRequest.id} />
+            issues.map((pullRequest) => (
+              <IssueItem pullRequest={pullRequest} key={pullRequest.id} />
             ))}
           <div className="w-full text-center">
             {query.hasNextPage && (
@@ -110,7 +110,7 @@ export default function ListPullRequestsPage() {
 
 type PullRequest = RouterOutputs["issue"]["list"]["items"][number];
 
-const PullRequestItem = ({ pullRequest }: { pullRequest: PullRequest }) => {
+const IssueItem = ({ pullRequest }: { pullRequest: PullRequest }) => {
   const router = useRouter();
 
   return (

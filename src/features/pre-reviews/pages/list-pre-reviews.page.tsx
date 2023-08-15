@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/router";
 
-export default function ListPullRequestsPage() {
+export default function ListPreReviewPage() {
   const query = api.preReview.list.useInfiniteQuery(
     {
       limit: 10,
@@ -25,7 +25,7 @@ export default function ListPullRequestsPage() {
     }
   );
 
-  const pullRequests = query.data?.pages.flatMap((page) => page.items);
+  const preReviews = query.data?.pages.flatMap((page) => page.items);
   const { user } = useUser();
 
   return (
@@ -45,11 +45,11 @@ export default function ListPullRequestsPage() {
           </Link>*/}
         </div>
         <div className="relative h-full space-y-3 pt-3">
-          {(!pullRequests || !user) && <LoadingPage />}
-          {pullRequests &&
+          {(!preReviews || !user) && <LoadingPage />}
+          {preReviews &&
             user &&
-            pullRequests.map((pullRequest) => (
-              <PullRequestItem pullRequest={pullRequest} key={pullRequest.id} />
+            preReviews.map((pullRequest) => (
+              <PreReviewItem pullRequest={pullRequest} key={pullRequest.id} />
             ))}
           <div className="w-full text-center">
             {query.hasNextPage && (
@@ -74,7 +74,7 @@ export default function ListPullRequestsPage() {
 
 type PullRequest = RouterOutputs["preReview"]["list"]["items"][number];
 
-const PullRequestItem = ({ pullRequest }: { pullRequest: PullRequest }) => {
+const PreReviewItem = ({ pullRequest }: { pullRequest: PullRequest }) => {
   const router = useRouter();
 
   return (

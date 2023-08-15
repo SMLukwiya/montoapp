@@ -6,7 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { ActionsTopbar } from "@/features/shared/components/layout/actions-topbar";
 import Link from "next/link";
 
-export default function PullRequestPage({ id }: { id: string }) {
+export default function IssuePage({ id }: { id: string }) {
   const { data: issue } = api.issue.show.useQuery({ id });
 
   if (!issue)
