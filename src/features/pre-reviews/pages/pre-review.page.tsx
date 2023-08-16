@@ -9,7 +9,7 @@ import Link from "next/link";
 import DiffView from "@/features/pre-reviews/components/diff-view";
 import FileTree from "@/features/shared/components/file-tree";
 
-export default function PreviewPage({ id }: { id: string }) {
+export default function PreReviewPage({ id }: { id: string }) {
   const { data: diff } = api.preReviewDiff.show.useQuery({ preReviewId: id });
   const { data: preReview } = api.preReview.show.useQuery({ id });
   const { data: comments } = api.comment.list.useQuery({

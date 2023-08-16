@@ -15,7 +15,7 @@ import Image from "next/image";
 import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/router";
 
-export default function ListPreReviewPage() {
+export default function ListPreReviewsPage() {
   const query = api.preReview.list.useInfiniteQuery(
     {
       limit: 10,

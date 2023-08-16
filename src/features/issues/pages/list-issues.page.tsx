@@ -9,7 +9,7 @@ import { useUser } from "@clerk/clerk-react";
 import { useRouter } from "next/router";
 import Link from "next/link";
 
-export default function ListIssuePage() {
+export default function ListIssuesPage() {
   const query = api.issue.list.useInfiniteQuery(
     {
       limit: 10,
