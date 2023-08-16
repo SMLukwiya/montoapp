@@ -95,3 +95,46 @@
 .diff .diff-code .token.property-access {
   color: rgb(5, 80, 174);
 }
+
+.markdown-wrapper p,
+.markdown-wrapper pre {
+  padding-bottom: 12px;
+}
+
+.markdown-wrapper ol,
+.markdown-wrapper ul {
+  padding-bottom: 12px;
+  padding-left: 16px;
+}
+
+.markdown-wrapper ol {
+  list-style-type: decimal;
+}
+
+.markdown-wrapper ul {
+  list-style-type: disc;
+}
+
+.markdown-wrapper code {
+  padding: 0 !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  background: none !important;
+  border: none !important;
+}
+
+.markdown-wrapper code.inline-code {
+  padding: 0.2em !important;
+  padding-top: 1px !important;
+  padding-bottom: 1px !important;
+  background: #f8f8f8 !important;
+  border: 1px solid #dddddd !important;
+  color: #333333 !important;
+  border-radius: 3px !important;
+  font-size: 12px !important;
+}
+
+.markdown-wrapper a {
+  text-decoration: underline;
+  color: blue;
+}

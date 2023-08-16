@@ -8,6 +8,8 @@ import { preReviewFileTreeRouter } from "@/features/pre-reviews/server/file-tree
 import { preReviewRouter } from "@/features/pre-reviews/server/pre-review.router";
 import { commentRouter } from "@/features/pre-reviews/server/comment.router";
 import { issueRouter } from "../../features/issues/server/issue.router";
+import { fileContentRouter } from "@/features/pre-reviews/server/file-content.router";
+import { fullFileDiffRouter } from "@/features/pre-reviews/server/full-file-diff.router";
 
 /**
  * This is the primary router for your server.
@@ -24,6 +26,8 @@ export const appRouter = createTRPCRouter({
   preReviewFileTree: preReviewFileTreeRouter,
   comment: commentRouter,
   issue: issueRouter,
+  fileContent: fileContentRouter,
+  fullFileDiff: fullFileDiffRouter,
 });
 
 // export type definition of API
