@@ -21,7 +21,7 @@ const formSchema = z.object({
   title: z.string(),
 });
 
-export default function NewPullRequestPage() {
+export default function NewPreReviewPage() {
   const router = useRouter();
   const ctx = api.useContext();
   const mutation = api.preReview.create.useMutation({
@@ -53,7 +53,7 @@ export default function NewPullRequestPage() {
     schema: formSchema,
   });
 
-  function savePullRequest(data: z.infer<typeof formSchema>) {
+  function savePreReview(data: z.infer<typeof formSchema>) {
     return mutation.mutate({
       owner: data.owner,
       repo: data.repo,
@@ -66,7 +66,7 @@ export default function NewPullRequestPage() {
 
   return (
     <Layout noPadding fullScreenOnMobile>
-      <form onSubmit={handlePromise(form.handleSubmit(savePullRequest))}>
+      <form onSubmit={handlePromise(form.handleSubmit(savePreReview))}>
         <ActionsTopbar>
           <Link href="/pre-reviews">
             <Button variant="ghost">

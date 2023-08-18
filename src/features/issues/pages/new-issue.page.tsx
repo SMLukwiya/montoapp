@@ -17,7 +17,7 @@ const formSchema = z.object({
   url: z.string().url(),
 });
 
-export default function NewPullRequestPage() {
+export default function NewIssuePage() {
   const router = useRouter();
   const ctx = api.useContext();
   const mutation = api.issue.create.useMutation({
@@ -49,7 +49,7 @@ export default function NewPullRequestPage() {
     schema: formSchema,
   });
 
-  function savePullRequest(data: z.infer<typeof formSchema>) {
+  function saveIssue(data: z.infer<typeof formSchema>) {
     return mutation.mutate({
       title: data.title,
       url: data.url,
@@ -58,7 +58,7 @@ export default function NewPullRequestPage() {
 
   return (
     <Layout noPadding fullScreenOnMobile>
-      <form onSubmit={handlePromise(form.handleSubmit(savePullRequest))}>
+      <form onSubmit={handlePromise(form.handleSubmit(saveIssue))}>
         <ActionsTopbar>
           <Link href="/issues">
             <Button variant="ghost">

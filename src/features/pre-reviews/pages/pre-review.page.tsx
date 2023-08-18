@@ -12,7 +12,7 @@ import AiChat from "@/features/pre-reviews/components/ai-chat";
 import { useState } from "react";
 import { Switch } from "@/features/shared/components/ui/switch";
 
-export default function PullRequestPage({ id }: { id: string }) {
+export default function PreReviewPage({ id }: { id: string }) {
   const isAdmin =
     typeof window !== "undefined" &&
     window.localStorage.getItem("isAdmin") === "true";
